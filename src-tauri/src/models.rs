@@ -17,5 +17,6 @@ pub struct Track {
 pub struct AppSettings {
     pub theme: String,
     pub volume: f32,
+    #[serde(rename = "lastScanDir")]
     pub last_scan_dir: Option<String>,
 }

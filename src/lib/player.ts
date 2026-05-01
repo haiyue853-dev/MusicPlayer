@@ -13,6 +13,7 @@ type HtmlAudioPlayer = {
   setVolume: (volume: number) => void
   getCurrentTime: () => number
   onEnded: (handler: () => void) => void
+  loadAndPlay: (track: Track) => Promise<void>
 }
 
 export function createPlayerAdapter(): HtmlAudioPlayer {
@@ -34,6 +35,11 @@ export function createPlayerAdapter(): HtmlAudioPlayer {
     getCurrentTime: () => audio.currentTime,
     onEnded: (handler) => {
       audio.onended = handler
+    },
+    loadAndPlay: async (track) => {
+      audio.src = resolveAudioSrc(track.path)
+      audio.load()
+      await audio.play()
     },
   }
 }

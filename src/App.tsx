@@ -78,10 +78,7 @@ export default function App() {
   useEffect(() => {
     if (!currentTrack) return
     playerRef.current.load(currentTrack)
-    if (isPlaying) {
-      playerRef.current.play().catch(() => setPlaying(false))
-    }
-  }, [currentTrack, isPlaying, setPlaying])
+  }, [currentTrack])
 
   async function handlePickFolder() {
     try {
@@ -96,6 +93,8 @@ export default function App() {
       setQueue(scanned)
       if (scanned.length > 0) {
         playAt(0)
+        await playerRef.current.loadAndPlay(scanned[0])
+        setPlaying(true)
       }
     } catch (error) {
       alert('打开文件夹失败，请确认系统文件选择权限可用')
@@ -105,8 +104,15 @@ export default function App() {
     }
   }
 
-  function handleSelectTrack(_track: Track, index: number) {
+  async function handleSelectTrack(track: Track, index: number) {
     playAt(index)
+    try {
+      await playerRef.current.loadAndPlay(track)
+      setPlaying(true)
+    } catch {
+      setPlaying(false)
+      alert('播放失败，请确认该音频文件可访问')
+    }
   }
 
   function handlePlayPause() {

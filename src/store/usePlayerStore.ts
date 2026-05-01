@@ -8,3 +8,8 @@ export function resolveNextIndex(input: { mode: PlayMode; currentIndex: number; 
   if (mode === 'shuffle') return Math.floor(Math.random() * total)
   return currentIndex + 1 < total ? currentIndex + 1 : -1
 }
+
+export function pushHistory(history: string[], currentId: string, limit: number) {
+  const without = history.filter((id) => id !== currentId)
+  return [currentId, ...without].slice(0, limit)
+}

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { AppShell } from './components/layout/AppShell'
 import { ThemeToggle } from './components/theme/ThemeToggle'
 import { createPlayerAdapter } from './lib/player'
-import { pickFolder } from './lib/tauri'
+import { pickFolder, loadSettings, saveSettings, mergeSettingsAfterPick } from './lib/tauri'
 import { scanAndMerge } from './modules/library/scan'
 import { useLibraryStore } from './store/useLibraryStore'
 import { usePlayerStore } from './store/usePlayerStore'
@@ -33,6 +33,24 @@ export default function App() {
   } = usePlayerStore()
 
   const currentTrack = useMemo(() => queue[currentIndex], [queue, currentIndex])
+
+  useEffect(() => {
+    let mounted = true
+    loadSettings()
+      .then((settings) => {
+        if (!mounted) return
+        if (settings.theme === 'light' || settings.theme === 'dark') {
+          setTheme(settings.theme)
+        }
+        if (settings.lastScanDir) {
+          setCurrentDir(settings.lastScanDir)
+        }
+      })
+      .catch(() => {})
+    return () => {
+      mounted = false
+    }
+  }, [setCurrentDir])
 
   useEffect(() => {
     playerRef.current.onEnded(() => {
@@ -71,6 +89,8 @@ export default function App() {
       if (!dir) return
       setScanning(true)
       setCurrentDir(dir)
+      const remembered = mergeSettingsAfterPick({ theme, volume }, dir)
+      await saveSettings(remembered)
       const scanned = await scanAndMerge(dir, [])
       setTracks(scanned)
       setQueue(scanned)

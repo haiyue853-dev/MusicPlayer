@@ -14,6 +14,13 @@ export function normalizeSettings(input: Partial<Settings>): Settings {
   }
 }
 
+export function applyPickedFolder(settings: Settings, folder: string): Settings {
+  return {
+    ...settings,
+    lastScanDir: folder,
+  }
+}
+
 type SettingsState = {
   settings: Settings
   setSettings: (next: Partial<Settings>) => void

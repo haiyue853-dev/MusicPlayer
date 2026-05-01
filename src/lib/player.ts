@@ -1,4 +1,9 @@
+import { convertFileSrc } from '@tauri-apps/api/core'
 import type { Track } from '../types/media'
+
+export function resolveAudioSrc(path: string, converter: (path: string) => string = convertFileSrc) {
+  return converter(path)
+}
 
 type HtmlAudioPlayer = {
   load: (track: Track) => void
@@ -15,7 +20,7 @@ export function createPlayerAdapter(): HtmlAudioPlayer {
 
   return {
     load: (track) => {
-      audio.src = track.path
+      audio.src = resolveAudioSrc(track.path)
       audio.load()
     },
     play: () => audio.play(),

@@ -6,6 +6,14 @@ export function normalizeTrackId(path: string) {
   return path.replaceAll('\\', '/').toLowerCase()
 }
 
+export function mergeSettingsAfterPick(settings: Partial<AppSettings>, folder: string): AppSettings {
+  return {
+    theme: settings.theme ?? 'light',
+    volume: settings.volume ?? 0.8,
+    lastScanDir: folder,
+  }
+}
+
 export async function invokeScan(dir: string) {
   return invoke<Track[]>('scan_library', { dir })
 }

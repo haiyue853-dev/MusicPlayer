@@ -21,6 +21,11 @@
   },
   "bundle": {
     "active": true,
-    "targets": "nsis"
+    "targets": "nsis",
+    "windows": {
+      "nsis": {
+        "installerIcon": "icons/icon.ico"
+      }
+    }
   }
 }

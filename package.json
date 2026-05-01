@@ -8,7 +8,10 @@
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test:unit": "vitest run tests/unit",
+    "verify": "npm run test:unit && npm run test:e2e && npm run tauri:build",
+    "tauri:build": "npx tauri build --config src-tauri/tauri.conf.json"
   },
   "dependencies": {
     "react": "^18.3.1",
@@ -17,6 +20,7 @@
   },
   "devDependencies": {
     "@playwright/test": "^1.54.2",
+    "@tauri-apps/cli": "^2.11.0",
     "@types/react": "^18.3.4",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",

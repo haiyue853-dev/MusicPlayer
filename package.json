@@ -15,6 +15,7 @@
     "tauri:build:portable": "npx tauri build --config src-tauri/tauri.conf.json --no-bundle"
   },
   "dependencies": {
+    "@tauri-apps/plugin-dialog": "^2.7.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "zustand": "^5.0.12"

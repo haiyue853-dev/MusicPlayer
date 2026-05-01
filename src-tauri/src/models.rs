@@ -9,6 +9,7 @@ pub struct Track {
     pub album: String,
     pub duration: u32,
     pub cover: Option<String>,
+    #[serde(rename = "lrcPath")]
     pub lrc_path: Option<String>,
 }
 

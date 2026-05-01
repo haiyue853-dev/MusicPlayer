@@ -66,17 +66,20 @@ export default function App() {
   }, [currentTrack, isPlaying, setPlaying])
 
   async function handlePickFolder() {
-    const dir = await pickFolder()
-    if (!dir) return
-    setScanning(true)
-    setCurrentDir(dir)
     try {
+      const dir = await pickFolder()
+      if (!dir) return
+      setScanning(true)
+      setCurrentDir(dir)
       const scanned = await scanAndMerge(dir, [])
       setTracks(scanned)
       setQueue(scanned)
       if (scanned.length > 0) {
         playAt(0)
       }
+    } catch (error) {
+      alert('打开文件夹失败，请确认系统文件选择权限可用')
+      console.error(error)
     } finally {
       setScanning(false)
     }

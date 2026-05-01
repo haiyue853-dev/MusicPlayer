@@ -19,10 +19,15 @@ export async function saveSettings(settings: AppSettings) {
 }
 
 export async function pickFolder() {
-  const selected = await open({
-    directory: true,
-    multiple: false,
-    title: '选择音乐文件夹',
-  })
-  return typeof selected === 'string' ? selected : null
+  try {
+    const selected = await open({
+      directory: true,
+      multiple: false,
+      title: '选择音乐文件夹',
+    })
+    return typeof selected === 'string' ? selected : null
+  } catch (error) {
+    console.error('pickFolder failed:', error)
+    throw error
+  }
 }

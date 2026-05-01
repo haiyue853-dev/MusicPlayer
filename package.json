@@ -10,8 +10,9 @@
     "test": "vitest",
     "test:e2e": "playwright test",
     "test:unit": "vitest run tests/unit",
-    "verify": "npm run test:unit && npm run test:e2e && npm run tauri:build",
-    "tauri:build": "npx tauri build --config src-tauri/tauri.conf.json"
+    "verify": "npm run test:unit && npm run test:e2e && npm run tauri:build:portable",
+    "tauri:build": "npx tauri build --config src-tauri/tauri.conf.json",
+    "tauri:build:portable": "npx tauri build --config src-tauri/tauri.conf.json --no-bundle"
   },
   "dependencies": {
     "react": "^18.3.1",
